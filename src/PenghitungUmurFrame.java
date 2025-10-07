@@ -13,12 +13,14 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 public class PenghitungUmurFrame extends javax.swing.JFrame {
+     private PenghitungUmurHelper helper; 
 
     /**
      * Creates new form PenghitungUmurFrame
      */
     public PenghitungUmurFrame() {
         initComponents();
+        helper = new PenghitungUmurHelper();
     }
 
     /**
@@ -47,6 +49,11 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
         jLabel1.setText("Aplikasi Penghitung Umur");
 
         dateChooserTanggalLahir.setDateFormatString("dd-MM-yyyy");
+        dateChooserTanggalLahir.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateChooserTanggalLahirPropertyChange(evt);
+            }
+        });
 
         btnHitung.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnHitung.setText("Hitung Umur");
@@ -58,6 +65,11 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
 
         btnKeluar.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnKeluar.setText("Keluar");
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel2.setText("Pilih Tanggal Lahir");
@@ -151,7 +163,7 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
         if (tanggalLahir != null) {
         // Menghitung umur dan hari ulang tahun berikutnya
         LocalDate lahir =
-    tanggalLahir.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        tanggalLahir.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate sekarang = LocalDate.now();
         String umur = helper.hitungUmurDetail(lahir, sekarang);
         txtUmur.setText(umur);
@@ -161,15 +173,23 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
         String hariUlangTahunBerikutnya =
         helper.getDayOfWeekInIndonesian(ulangTahunBerikutnya);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-
-        yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         String tanggalUlangTahunBerikutnya =
         ulangTahunBerikutnya.format(formatter);
-        txtHariUlangTahunBerikutnya.setText(hariUlangTahunBerikutnya + "
-        (" + tanggalUlangTahunBerikutnya + ")");
-        }   // TODO add your handling code here:
+        txtHariUlangTahunBerikutnya.setText(hariUlangTahunBerikutnya + "(" + tanggalUlangTahunBerikutnya + ")");
+        }
+
     }//GEN-LAST:event_btnHitungActionPerformed
+
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
+    private void dateChooserTanggalLahirPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateChooserTanggalLahirPropertyChange
+     txtUmur.setText("");
+     txtHariUlangTahunBerikutnya.setText("");    // TODO add your handling code here:
+    }//GEN-LAST:event_dateChooserTanggalLahirPropertyChange
 
     /**
      * @param args the command line arguments
@@ -205,7 +225,7 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHitung;
     private javax.swing.JButton btnKeluar;
